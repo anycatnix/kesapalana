@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 900px; margin: 3em auto 4em auto; background: #181f1b; border-radius: 14px; box-shadow: 0 4px 24px #0003; padding: 2.5em 2em;">
+    <h2 style="color: #f6a32b; text-align: center; font-size: 2.2em; margin-bottom: 1.5em; letter-spacing: 1px;">Your Cart</h2>
+    <div style="overflow-x:auto;">
+        <table style="width:100%; background:#101917; color:#fff; border-radius:10px; overflow:hidden; border-collapse:separate; border-spacing:0; box-shadow:0 2px 12px #0002;">
+            <thead>
+                <tr style="background:#222; color:#f6a32b;">
+                    <th style="padding:1em 0.7em; text-align:left;">Product</th>
+                    <th style="text-align:left;">Quantity</th>
+                    <th style="text-align:left;">Price</th>
+                    <th style="text-align:left;">Total</th>
+                    <th style="text-align:left;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in cart.items.all %}
+                <tr style="border-top:1px solid #222; transition: background 0.2s;">
+                    <td style="padding:0.8em 0.7em; font-weight:600;">{{ item.product.name }}</td>
+                    <td>
+                        <form method="post" action="{% url 'cart:update_quantity' item.uuid %}" style="display:flex;align-items:center;gap:0.5em;">
+                            <input type="hidden" name="username" value="{{ user.username }}">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" style="width:60px;padding:0.5em;border-radius:3px;border:1px solid #333;background:#181f1b;color:#fff;">
+                            <button type="submit" class="btn-orange" style="padding:0.4em 1.1em;font-size:0.98em;">Update</button>
+                        </form>
+                    </td>
+                    <td>₹{{ item.product.price }}</td>
+                    <td style="font-weight:500;">₹{{ item.total_price }}</td>
+                    <td>
+                        <a href="{% url 'cart:remove_from_cart' item.uuid %}" style="color:#e74c3c;font-weight:500;text-decoration:underline;">Remove</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5" style="text-align:center;padding:2em 0;">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png" alt="Empty Cart" style="width:80px;opacity:0.7;margin-bottom:1em;"/>
+                    <div style="color:#ccc;font-size:1.15em;">Your cart is empty.<br>Start shopping and add products to your cart!</div>
+                    <a href="/products/" class="btn-orange" style="margin-top:1.2em;display:inline-block;font-size:1.08em;">Shop Now</a>
+                </td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div style="max-width:400px;margin:2.5em auto 0 auto;background:#101917;padding:2em 2em 1.5em 2em;border-radius:10px;box-shadow:0 2px 12px #0002;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:0.7em;"><span style="color:#ccc;">Subtotal:</span><span>₹{{ cart.subtotal }}</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:0.7em;"><span style="color:#ccc;">Discount:</span><span>₹{{ cart.discount }}</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:0.7em;"><span style="color:#ccc;">Tax:</span><span>₹{{ cart.tax }}</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:0.7em;"><span style="color:#ccc;">Shipping:</span><span>₹{{ cart.shipping }}</span></div>
+        <div style="display:flex;justify-content:space-between;font-weight:bold;font-size:1.1em;margin-top:1.2em;"><span>Total:</span><span>₹{{ cart.total }}</span></div>
+        <form method="post" action="{% url 'cart:apply_coupon' %}" style="margin-top:1.5em;display:flex;gap:0.7em;">
+            {% csrf_token %}
+            <input type="text" name="coupon" placeholder="Coupon code" style="flex:1;padding:0.7em;border-radius:3px;border:1px solid #333;background:#181f1b;color:#fff;">
+            <button type="submit" class="btn-orange" style="padding:0.7em 1.2em;font-size:1em;">Apply Coupon</button>
+        </form>
+        {% if user.is_authenticated %}
+            <a href="{% url 'orders:checkout' user.username %}" class="btn-orange" style="width:100%;display:block;text-align:center;margin-top:1.5em;font-size:1.08em;">Proceed to Checkout</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn-orange" style="width:100%;display:block;text-align:center;margin-top:1.5em;font-size:1.08em;">Login to Checkout</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

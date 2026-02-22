@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+<div class="profile-container animate__animated animate__fadeInUp" style="max-width:540px;margin:3em auto;background:#181f1b;padding:2.5em 2em 2em 2em;border-radius:16px;box-shadow:0 4px 24px #0003;">
+    <div style="display:flex;align-items:center;gap:1.5em;">
+        {% if profile.avatar %}
+            <img src="{{ profile.avatar.url }}" alt="Avatar" width="100" class="animate__animated animate__zoomIn" style="border-radius:50%;border:3px solid #f6a32b;box-shadow:0 2px 12px #0002;" />
+        {% else %}
+            <img src="https://ui-avatars.com/api/?name={{ profile.user.username }}&background=f6a32b&color=101917&rounded=true&size=100" alt="Avatar" width="100" class="animate__animated animate__zoomIn" style="border-radius:50%;border:3px solid #f6a32b;box-shadow:0 2px 12px #0002;" />
+        {% endif %}
+        <div>
+            <h2 style="color:#f6a32b;margin-bottom:0.2em;">{{ profile.user.username|title }}</h2>
+            <div style="color:#aaa;font-size:1.08em;">{{ profile.user.email }}</div>
+        </div>
+    </div>
+    <form method="post" enctype="multipart/form-data" class="animate__animated animate__fadeInUp animate__delay-1s" style="margin-top:2.5em;">
+        {% csrf_token %}
+        <div style="display:grid;gap:1.2em;">
+            {{ form.phone.label_tag }}
+            {{ form.phone }}
+            {{ form.date_of_birth.label_tag }}
+            {{ form.date_of_birth }}
+            {{ form.avatar.label_tag }}
+            {{ form.avatar }}
+            {{ form.bio.label_tag }}
+            {{ form.bio }}
+            {{ form.location.label_tag }}
+            {{ form.location }}
+            {{ form.website.label_tag }}
+            {{ form.website }}
+        </div>
+        <button type="submit" class="btn-orange animate__animated animate__pulse animate__infinite" style="width:100%;font-size:1.1em;margin-top:2em;">Update Profile</button>
+    </form>
+    <div style="margin-top:2.5em;display:flex;gap:1.2em;justify-content:center;">
+        <a href="{% url 'users:address_book' user.username %}" class="btn-orange animate__animated animate__pulse animate__infinite" style="font-size:1.08em;">Address Book</a>
+        <a href="{% url 'users:wishlist' %}" class="btn-orange animate__animated animate__pulse animate__infinite" style="font-size:1.08em;background:#222;">Wishlist</a>
+        <a href="{% url 'users:order_history' user.username %}" class="btn-orange animate__animated animate__pulse animate__infinite" style="font-size:1.08em;">Order History</a>
+    </div>
+</div>
+<style>
+.btn-orange {transition:box-shadow 0.2s,transform 0.2s;}
+.btn-orange:hover {box-shadow:0 2px 16px #f6a32b44;transform:translateY(-2px) scale(1.04);}
+form input, form textarea, form select {background:#101917;color:#fff;border:1px solid #333;padding:0.7em;border-radius:4px;}
+form label {color:#f6a32b;font-weight:500;}
+</style>
+{% endblock %}

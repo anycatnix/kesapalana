@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Success Message Popup -->
+{% if messages %}
+    <div id="success-popup" class="success-popup" data-aos="zoom-in">
+        {% for message in messages %}
+            <div class="success-message"> 
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;margin-right:0.5em;"><circle cx="12" cy="12" r="12" fill="#2ecc71"/><path d="M7 13l3 3 7-7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>{{ message }}</span>
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        setTimeout(function() {
+            var popup = document.getElementById('success-popup');
+            if (popup) {
+                popup.style.opacity = '0';
+                popup.style.transform = 'translateY(-30px) scale(0.95)';
+                setTimeout(function() { popup.style.display = 'none'; }, 600);
+            }
+        }, 3200);
+    </script>
+{% endif %}
+
+<div style="max-width: 500px; margin: 3em auto 4em auto; background: #181f1b; border-radius: 12px; box-shadow: 0 4px 24px #0003; padding: 2.5em 2em;">
+        <h2 style="color: #f6a32b; text-align: center; font-size: 2.2em; margin-bottom: 0.7em; letter-spacing: 1px;">Contact Us</h2>
+        <p style="color: #ccc; text-align: center; margin-bottom: 2em; font-size: 1.08em;">Have a question, feedback, or need help? Fill out the form below and our team will get back to you within 24 hours.</p>
+        <form method="post" style="display: flex; flex-direction: column; gap: 1.3em;">
+                {% csrf_token %}
+                <div style="display: flex; flex-direction: column; gap: 0.4em;">
+                        <label for="id_name" style="color: #f6a32b; font-weight: 500;">Name</label>
+                        <input type="text" name="name" id="id_name" class="contact-input" placeholder="Your Name" value="{{ form.name.value|default_if_none:'' }}" required>
+                        {% if form.name.errors %}<span style="color:#ff6a6a;font-size:0.95em;">{{ form.name.errors.0 }}</span>{% endif %}
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.4em;">
+                        <label for="id_email" style="color: #f6a32b; font-weight: 500;">Email</label>
+                        <input type="email" name="email" id="id_email" class="contact-input" placeholder="you@email.com" value="{{ form.email.value|default_if_none:'' }}" required>
+                        {% if form.email.errors %}<span style="color:#ff6a6a;font-size:0.95em;">{{ form.email.errors.0 }}</span>{% endif %}
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.4em;">
+                        <label for="id_message" style="color: #f6a32b; font-weight: 500;">Message</label>
+                        <textarea name="message" id="id_message" class="contact-textarea" placeholder="Type your message..." rows="5" required>{{ form.message.value|default_if_none:'' }}</textarea>
+                        {% if form.message.errors %}<span style="color:#ff6a6a;font-size:0.95em;">{{ form.message.errors.0 }}</span>{% endif %}
+                </div>
+                <button type="submit" class="btn-orange" style="margin-top: 1em; font-size: 1.1em; padding: 0.9em 0; border-radius: 5px; font-weight: bold; letter-spacing: 1px;">Send Message</button>
+        </form>
+</div>
+<style>
+    .success-popup {
+        position: fixed;
+        top: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        background: none;
+        border: none;
+        box-shadow: none;
+        animation: fadeInDown 0.7s cubic-bezier(.4,0,.2,1);
+        transition: opacity 0.5s, transform 0.5s;
+    }
+    .success-message {
+        display: flex;
+        align-items: center;
+        background: #222;
+        color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 24px #0005;
+        padding: 1.1em 2em 1.1em 1.3em;
+        font-size: 1.13em;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        border-left: 6px solid #2ecc71;
+        margin-bottom: 0.5em;
+        min-width: 320px;
+        max-width: 90vw;
+    }
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-40px) scale(0.95); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .contact-input {
+        background: #101917;
+        border: 1px solid #333;
+        color: #fff;
+        border-radius: 4px;
+        padding: 0.8em 1em;
+        font-size: 1em;
+        outline: none;
+        transition: border 0.2s;
+    }
+    .contact-input:focus, .contact-textarea:focus {
+        border: 1.5px solid #f6a32b;
+    }
+    .contact-textarea {
+        background: #101917;
+        border: 1px solid #333;
+        color: #fff;
+        border-radius: 4px;
+        padding: 1em 1em;
+        font-size: 1em;
+        outline: none;
+        min-height: 120px;
+        resize: vertical;
+        transition: border 0.2s;
+    }
+</style>
+{% endblock %}

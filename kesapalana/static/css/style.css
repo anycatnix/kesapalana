@@ -1,0 +1,63 @@
+/* Main style for Kesapalana - modern, clean, ecommerce-focused */
+body {
+    background: #101917;
+    color: #fff;
+    font-family: 'Inter', Arial, sans-serif;
+    margin: 0;
+    scroll-behavior: smooth;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.btn-orange {
+    background: linear-gradient(90deg, #f6a32b 0%, #ffb347 100%);
+    color: #101917;
+    border: none;
+    padding: 0.7em 1.5em;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #f6a32b22;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+.btn-orange:hover {
+    background: linear-gradient(90deg, #ffb347 0%, #f6a32b 100%);
+    box-shadow: 0 4px 16px #f6a32b44;
+}
+
+.card {
+    background: #181f1b;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px #0002;
+    padding: 2em 1.5em;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 8px 32px #0005;
+}
+
+/* Animations (for AOS) */
+[data-aos] {
+    opacity: 0;
+    transition-property: opacity, transform;
+}
+[data-aos].aos-animate {
+    opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .card, .product-card {
+        max-width: 95vw;
+    }
+}
+@media (max-width: 600px) {
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.3em; }
+    .btn-orange { padding: 0.6em 1em; }
+}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 500px; margin: 3em auto 4em auto; background: #181f1b; border-radius: 12px; box-shadow: 0 4px 24px #0003; padding: 2.5em 2em;">
+    <h2 style="color: #f6a32b; text-align: center; font-size: 2em; margin-bottom: 1.2em; letter-spacing: 1px;">Add Review for {{ product.name }}</h2>
+    <form method="post" style="display: flex; flex-direction: column; gap: 1.3em;">
+        {% csrf_token %}
+        <div style="display: flex; flex-direction: column; gap: 0.4em;">
+            <label for="id_rating" style="color: #f6a32b; font-weight: 500;">Rating</label>
+            <select name="rating" id="id_rating" class="review-input" required style="background:#101917;border:1px solid #333;color:#fff;border-radius:4px;padding:0.7em 1em;font-size:1em;outline:none;">
+                <option value="" disabled selected>Select rating</option>
+                {% for i in "12345" %}
+                    <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 0.4em;">
+            <label for="id_comment" style="color: #f6a32b; font-weight: 500;">Comment</label>
+            <textarea name="comment" id="id_comment" class="review-textarea" placeholder="Write your review..." rows="5" required style="background:#101917;border:1px solid #333;color:#fff;border-radius:4px;padding:1em 1em;font-size:1em;outline:none;min-height:120px;resize:vertical;"></textarea>
+        </div>
+        <button type="submit" class="btn-orange" style="margin-top: 1em; font-size: 1.1em; padding: 0.9em 0; border-radius: 5px; font-weight: bold; letter-spacing: 1px;">Submit Review</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+<div class="address-book-container animate__animated animate__fadeInUp" style="max-width:600px;margin:3em auto;background:#181f1b;padding:2.5em 2em 2em 2em;border-radius:16px;box-shadow:0 4px 24px #0003;">
+    <h2 style="color:#f6a32b;text-align:center;" class="animate__animated animate__fadeInDown">Address Book</h2>
+    <ul style="margin-bottom:2em;list-style:none;padding:0;">
+        {% for address in addresses %}
+            <li class="animate__animated animate__fadeInLeft" style="color:#fff;margin-bottom:1.2em;background:#222;padding:1.1em 1.2em;border-radius:8px;box-shadow:0 2px 8px #0002;">
+                <strong>{{ address.full_name }}</strong><br>
+                {{ address.address_line1 }}, {{ address.city }}, {{ address.country }}<br>
+                <span style="color:#aaa;font-size:0.98em;">{{ address.phone }}</span>
+            </li>
+        {% empty %}
+            <li style="color:#aaa;">No addresses found.</li>
+        {% endfor %}
+    </ul>
+    <div style="max-width:400px;margin:2em auto 0 auto;background:#101917;padding:2em 2em 1.5em 2em;border-radius:10px;box-shadow:0 2px 12px #0002;">
+        <h3 style="color:#f6a32b;" class="animate__animated animate__fadeIn">Add New Address</h3>
+        <form method="post" class="animate__animated animate__fadeInUp animate__delay-1s">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}">
+            {% endif %}
+            <button type="submit" class="btn-orange animate__animated animate__pulse animate__infinite" style="width:100%;font-size:1.1em;">Add Address</button>
+        </form>
+    </div>
+    <div style="text-align:center;margin-top:2em;">
+        <a href="{% url 'users:profile' user.username %}" class="btn-orange animate__animated animate__fadeInUp" style="font-size:1.08em;">Back to Profile</a>
+    </div>
+</div>
+<style>
+.btn-orange {transition:box-shadow 0.2s,transform 0.2s;}
+.btn-orange:hover {box-shadow:0 2px 16px #f6a32b44;transform:translateY(-2px) scale(1.04);}
+</style>
+{% endblock %}

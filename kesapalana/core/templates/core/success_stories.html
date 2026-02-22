@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<section style="padding:3em 0;text-align:center;">
+    <h1 style="color:#fff;">Success Stories</h1>
+    <p style="color:#ccc;max-width:600px;margin:1em auto 2em auto;">Real results from real men. Discover how Keshapalana has helped men regain their confidence and hair health.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:2em;justify-content:center;">
+        {% for story in stories %}
+        <div style="background:#181f1b;border-radius:10px;padding:2em 1.5em;max-width:320px;flex:1 1 250px;color:#fff;">
+            <div style="color:#f6a32b;font-size:1.2em;margin-bottom:0.5em;">&#11088;&#11088;&#11088;&#11088;&#11088;</div>
+            <div style="font-style:italic;margin-bottom:1em;">"{{ story.content }}"</div>
+            <div style="font-weight:bold;">{{ story.name }}</div>
+            <div style="color:#aaa;font-size:0.95em;">Verified Buyer</div>
+        </div>
+        {% empty %}
+        <p style="color:#aaa;">No stories yet. Be the first to share your success!</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

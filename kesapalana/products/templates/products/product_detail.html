@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div style="max-width: 1100px; margin: 3em auto 4em auto; background: #181f1b; border-radius: 14px; box-shadow: 0 4px 24px #0003; padding: 2.5em 2em;">
+    <div style="display: flex; gap: 3em; flex-wrap: wrap; align-items: flex-start;">
+        <!-- Product Image and Gallery -->
+        <div style="flex: 1; min-width: 320px;">
+            {% if product.images.all|length > 0 %}
+                <img src="{{ product.images.all.0.image.url }}" alt="{{ product.name }}" style="width:100%;max-width:400px;border-radius:10px;box-shadow:0 2px 16px #0003;" />
+                {% if product.images.all|length > 1 %}
+                <div style="display: flex; gap: 1em; margin-top: 1.2em; justify-content:center;">
+                    {% for img in product.images.all %}
+                        <img src="{{ img.image.url }}" alt="{{ img.alt_text }}" style="width:70px;height:70px;object-fit:cover;border-radius:6px;border:2px solid #222;box-shadow:0 1px 6px #0002;" />
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% else %}
+                <img src="{% static 'img/default_product.png' %}" alt="No image" style="width:100%;max-width:400px;border-radius:10px;box-shadow:0 2px 16px #0003;" />
+            {% endif %}
+        </div>
+        <!-- Product Details -->
+        <div style="flex: 2; min-width: 320px;">
+            <a href="/products/" style="color:#f6a32b;font-size:0.95em;text-decoration:none;">&larr; Back to Shop</a>
+            <h1 style="font-size:2.5em;margin:0.3em 0 0.4em 0;color:#fff;">{{ product.name }}</h1>
+            <div style="color:#f6a32b;font-size:1.5em;font-weight:bold;margin-bottom:0.7em;">₹{{ product.price }}</div>
+            <p style="margin:1em 0 2em 0;max-width:500px;color:#ccc;line-height:1.6;">{{ product.description }}</p>
+            {% if product.benefits %}
+            <ul style="list-style:none;padding:0;margin:1em 0 2em 0;color:#fff;">
+                {% for benefit in product.benefits %}
+                    <li style="margin-bottom:0.5em;">&#10003; {{ benefit }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <form method="post" action="{% url 'cart:add_to_cart' product.slug %}" style="display:flex;align-items:center;gap:1em;margin-bottom:1.2em;">
+                {% csrf_token %}
+                <input type="number" name="quantity" value="1" min="1" style="width:60px;padding:0.5em;border-radius:3px;border:1px solid #333;background:#181f1b;color:#fff;">
+                <button type="submit" class="btn-orange" style="font-size:1.1em;padding:0.7em 2em;">Add to Cart</button>
+            </form>
+            <div style="margin-top:0.7em;font-size:0.98em;color:#aaa;">
+                <span>&#128230; Free Shipping over ₹999</span> &nbsp; | &nbsp;
+                <span>&#9989; 100% Authentic Guarantee</span>
+            </div>
+        </div>
+    </div>
+    <!-- Reviews Section -->
+    <div style="margin-top:3.5em;max-width:700px;margin-left:auto;margin-right:auto;">
+        <h2 style="color:#f6a32b;text-align:center;margin-bottom:1.2em;">Customer Reviews</h2>
+        <ul style="list-style:none;padding:0;">
+            {% for review in reviews %}
+                <li style="background:#101917;margin-bottom:1.2em;padding:1.2em 1.5em;border-radius:8px;box-shadow:0 1px 8px #0002;">
+                    <strong style="color:#fff;">{{ review.user.username }}</strong> <span style="color:#f6a32b;">{{ review.rating }}/5</span><br>
+                    <span style="color:#ccc;">{{ review.comment }}</span>
+                </li>
+            {% empty %}
+                <li style="color:#aaa;text-align:center;">No reviews yet.</li>
+            {% endfor %}
+        </ul>
+        {% if user.is_authenticated %}
+            <a href="{% url 'products:add_review' product.slug %}" class="btn-orange" style="margin-top:1em;display:inline-block;">Add Review</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

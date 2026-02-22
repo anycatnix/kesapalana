@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- Hero Section -->
+<section style="background: url('{% static "img/hero_user.jpg" %}') no-repeat center; background-size: cover; min-height: 420px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative;">
+    <div style="margin-top: 3em;"></div>
+    <div style="background: rgba(16,25,23,0.7); padding: 2em 2em 2.5em 2em; border-radius: 12px; display: inline-block;">
+        <div style="color: #f6a32b; font-size: 0.9em; letter-spacing: 2px; margin-bottom: 1em;">RESULT EFFECTIVE HAIR CARE</div>
+        <h1 style="font-size: 3.2em; color: #fff; margin: 0;">STRENGTH<br><span style="color: #f6a32b; font-style: italic;">FROM THE ROOTS</span></h1>
+        <p style="color: #ccc; margin: 1.5em 0 2em 0; max-width: 500px;">Engineered exclusively for men. Keshapalana combines potent clinical actives with traditional wisdom for denser, stronger hair.</p>
+        <div style="display: flex; gap: 1em; justify-content: center;">
+            <a href="/products/" class="btn-orange" style="text-decoration:none;">SHOP SOLUTIONS</a>
+            <a href="/core/science/" style="border:1px solid #fff; color:#fff; padding:0.7em 1.5em; border-radius:3px; text-decoration:none; font-weight:bold;">OUR SCIENCE</a>
+        </div>
+    </div>
+</section>
+
+<!-- Complete System Section -->
+<section style="padding: 3em 0 1em 0;">
+    <h2 style="color:#fff; font-size:2em; margin-left:1.5em;">Complete System</h2>
+    <p style="color:#ccc; margin-left:1.5em;">Our curated range of potent formulations designed to work together for maximum efficacy.</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 2em; justify-content: center; margin-top:2em;">
+        {% for product in products %}
+        <div style="background:#181f1b; border-radius:10px; width:320px; padding:1.5em; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 2px 12px #0002;">
+            <div>
+                <div style="font-size:0.9em; color:#fff; background:#222; display:inline-block; padding:0.2em 0.8em; border-radius:3px; margin-bottom:1em;">{{ product.category|upper }}</div>
+                <img src="{{ product.images.all.0.image.url }}" alt="{{ product.name }}" style="width:100%; height:180px; object-fit:cover; border-radius:6px; margin-bottom:1em;" />
+                <div style="font-size:1.1em; color:#fff; font-weight:bold;">{{ product.name }}</div>
+                <div style="color:#ccc; font-size:0.98em; margin:0.5em 0 1em 0;">{{ product.short_description }}</div>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="color:#f6a32b; font-weight:bold; font-size:1.1em;">₹{{ product.price }}</span>
+                <a href="{% url 'products:product_detail' product.slug %}" style="color:#fff; text-decoration:none; font-size:0.98em;">VIEW DETAILS &rarr;</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Why Kesapalana Section -->
+<section style="margin:4em 0 2em 0; text-align:center;">
+    <h2 style="color:#fff; font-size:2em;" data-aos="fade-up">Why Keshapalana?</h2>
+    <p style="color:#ccc; max-width:600px; margin:0 auto 2em auto;" data-aos="fade-up" data-aos-delay="100">We don't sell promises. We sell effective, science-backed routines for the modern man who demands results.</p>
+    <div style="display:flex; flex-wrap:wrap; gap:2em; justify-content:center;">
+        <div class="card" data-aos="fade-up" data-aos-delay="200" style="max-width:260px; flex:1 1 200px;">
+            <div style="color:#f6a32b; font-size:1.5em;">&#128200;</div>
+            <div style="color:#fff; font-weight:bold; margin:0.5em 0;">Result Effective</div>
+            <div style="color:#ccc; font-size:0.98em;">Clinically tested formulas designed to deliver visible density and strength improvement within 90 days.</div>
+        </div>
+        <div class="card" data-aos="fade-up" data-aos-delay="300" style="max-width:260px; flex:1 1 200px;">
+            <div style="color:#f6a32b; font-size:1.5em;">&#128104;&#8205;&#128188;</div>
+            <div style="color:#fff; font-weight:bold; margin:0.5em 0;">For Men Only</div>
+            <div style="color:#ccc; font-size:0.98em;">Specifically formulated for male hormonal patterns and hair texture needs. No generic solutions.</div>
+        </div>
+        <div class="card" data-aos="fade-up" data-aos-delay="400" style="max-width:260px; flex:1 1 200px;">
+            <div style="color:#f6a32b; font-size:1.5em;">&#128300;</div>
+            <div style="color:#fff; font-weight:bold; margin:0.5em 0;">Active Potency</div>
+            <div style="color:#ccc; font-size:0.98em;">High concentrations of Minoxidil, Biotin, and Ayurvedic oils for maximum scalp absorption.</div>
+        </div>
+        <div class="card" data-aos="fade-up" data-aos-delay="500" style="max-width:260px; flex:1 1 200px;">
+            <div style="color:#f6a32b; font-size:1.5em;">&#127942;</div>
+            <div style="color:#fff; font-weight:bold; margin:0.5em 0;">Premium Quality</div>
+            <div style="color:#ccc; font-size:0.98em;">Sulfate-free, paraben-free, and crafted with the finest ingredients for daily safe use.</div>
+        </div>
+    </div>
+</section>
+
+<!-- Real Results Section -->
+<section style="background:#181f1b; padding:3em 0 2em 0; margin-top:3em;">
+    <h2 style="color:#fff; text-align:center; font-size:2em;" data-aos="fade-up">Real Results</h2>
+    <div style="display:flex; flex-wrap:wrap; gap:2em; justify-content:center; margin-top:2em;">
+        {% for t in testimonials %}
+        <div class="card" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:1 }}00" style="background:#101917; max-width:320px; flex:1 1 250px; color:#fff;">
+            <div style="color:#f6a32b; font-size:1.2em; margin-bottom:0.5em;">&#11088;&#11088;&#11088;&#11088;&#11088;</div>
+            <div style="font-style:italic; margin-bottom:1em;">"{{ t.content }}"</div>
+            <div style="font-weight:bold;">{{ t.name }}</div>
+            <div style="color:#aaa; font-size:0.95em;">Verified Buyer</div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

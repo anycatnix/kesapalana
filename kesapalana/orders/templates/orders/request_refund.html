@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Request Refund for Order #{{ order.id }}</h2>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Request Refund</button>
+</form>
+{% endblock %}

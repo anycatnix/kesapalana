@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Testimonials</h2>
+<ul>
+    {% for t in testimonials %}
+        <li>{{ t.name }}: {{ t.content }} ({{ t.rating }}/5)</li>
+    {% endfor %}
+</ul>
+{% endblock %}

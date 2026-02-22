@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 900px; margin: 3em auto 4em auto; background: #181f1b; border-radius: 14px; box-shadow: 0 4px 24px #0003; padding: 2.5em 2em;">
+    <h1 style="color: #f6a32b; text-align: center; font-size: 2.2em; margin-bottom: 0.7em; letter-spacing: 1px;">Your Orders</h1>
+    {% if orders %}
+        <div style="overflow-x:auto; margin-top:2em;">
+            <table style="width:100%; background:#101917; color:#fff; border-radius:10px; overflow:hidden; border-collapse:separate; border-spacing:0; box-shadow:0 2px 12px #0002;">
+                <thead>
+                    <tr style="background:#222; color:#f6a32b;">
+                        <th style="padding:1em 0.7em; text-align:left;">Order #</th>
+                        <th style="text-align:left;">Date</th>
+                        <th style="text-align:left;">Status</th>
+                        <th style="text-align:left;">Total</th>
+                        <th style="text-align:left;">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr style="border-top:1px solid #222; transition: background 0.2s;">
+                        <td style="padding:0.8em 0.7em; font-weight:600;">#{{ order.id }}</td>
+                        <td>{{ order.created_at|date:'M d, Y H:i' }}</td>
+                        <td><span style="padding:0.3em 0.9em; border-radius:12px; background:{% if order.status == 'paid' %}#2ecc71{% elif order.status == 'pending' %}#f6a32b{% elif order.status == 'cancelled' %}#e74c3c{% else %}#555{% endif %}; color:#fff; font-size:0.98em;">{{ order.status|title }}</span></td>
+                        <td style="font-weight:500;">₹{{ order.total }}</td>
+                        <td><a href="{% url 'orders:order_status' order.uuid %}" style="color:#f6a32b; font-weight:500; text-decoration:underline;">View</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div style="text-align:center; margin:3em 0 2em 0;">
+            <img src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png" alt="No Orders" style="width:90px; opacity:0.7; margin-bottom:1.2em;"/>
+            <p style="color:#ccc; font-size:1.15em;">You have not placed any orders yet.<br>Start shopping and your orders will appear here!</p>
+            <a href="/products/" class="btn-orange" style="margin-top:1.2em; display:inline-block; font-size:1.08em;">Shop Now</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

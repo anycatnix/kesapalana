@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Wishlist</h2>
+<ul>
+    {% for product in wishlist.products.all %}
+        <li>{{ product.name }}</li>
+    {% empty %}
+        <li>Your wishlist is empty.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'users:profile' user.username %}">Back to Profile</a>
+{% endblock %}
